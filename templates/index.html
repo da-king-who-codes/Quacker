@@ -1,0 +1,40 @@
+<!-- i'm planning for this to be like the page where people can see all the stuff -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quacker</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+  <script>
+    var socket = io();
+    socket.on('connect', function() {
+      socket.emit("joemama", data={"deez": "nuts"})
+    })
+    function sendPost(){
+      socket.emit("new_post", data={"post": document.getElementById('post').value})
+    }
+    function createPost(){
+      var form = document.createElement("form");
+      var post = document.createElement("input");
+      post.setAttribute("type", "text");
+      post.setAttribute("name", "post");
+      post.setAttribute("id", "post")
+      form.appendChild(post);
+      document.getElementsByTagName("body")[0].appendChild(form);
+    }
+    function sendLogoutRequest(){
+      socket.emit("logout_request")
+    }
+  </script>
+</head>
+<body>
+  <h1>Hello {{user}}</h1>
+  <button onclick="createPost();">New Post</button>
+  <button onclick="sendPost();">Send_Post</button>
+  <button onclick="sendLogoutRequest();">Logout</button>
+  {%for _ in messages%}
+  {%endfor%}
+</body>
+</html>
